@@ -3,6 +3,7 @@ package com.opshop.core;
 import com.alibaba.fastjson.JSON;
 import com.github.shyiko.mysql.binlog.BinaryLogClient;
 import com.github.shyiko.mysql.binlog.event.*;
+import com.opshop.config.ConfigProperties;
 import com.opshop.entity.ProductDetailModel;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -23,10 +24,12 @@ import java.util.Map;
 public class SyncMysql {
     @Autowired
     private TransportClient client;
+    @Autowired
+    private ConfigProperties configProperties;
 
 
     public void addEs() throws IOException {
-        final BinaryLogClient client = new BinaryLogClient("127.0.0.1", 3306, "root", "123456");
+        final BinaryLogClient client = new BinaryLogClient(configProperties.getIp(), configProperties.getPort(), configProperties.getUsername(), configProperties.getPassword());
         client.setBinlogFilename("mysql-bin.000001");
         client.setBinlogPosition(0);
         client.registerEventListener(new BinaryLogClient.EventListener() {
@@ -85,7 +88,7 @@ public class SyncMysql {
 
     private ProductDetailModel getProduct(String id) {
         ProductDetailModel productDetailModel = new ProductDetailModel();
-        
+
         return productDetailModel;
     }
 
