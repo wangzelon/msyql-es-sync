@@ -1,7 +1,6 @@
 package com.opshop.controller;
 
 import com.opshop.core.SyncMysql;
-import com.opshop.dao.TestOneRepository;
 import com.opshop.entity.TestOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
