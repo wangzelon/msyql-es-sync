@@ -41,8 +41,10 @@ public class SyncMysql {
             client.setBinlogFilename(fileName);
             client.setBinlogPosition(position);
         } else {
-            client.setBinlogFilename((String) filePosition.get("fileName"));
-            client.setBinlogPosition((Long) filePosition.get("position"));
+            fileName = (String) filePosition.get("fileName");
+            position = (Long) filePosition.get("position");
+            client.setBinlogFilename(fileName);
+            client.setBinlogPosition(position);
         }
         client.registerEventListener(event -> {
             EventHeader header = event.getHeader();
@@ -84,7 +86,7 @@ public class SyncMysql {
         map.put("fileName", binlogFilename);
         map.put("position", binlogPosition);
         String jsonString = JSON.toJSONString(map);
-        IndexResponse result = client.prepareIndex("filePosition", "map")
+        IndexResponse result = client.prepareIndex("fileposition", "map")
                 .setSource(JSON.parseObject(jsonString)).setId("1")
                 .get();
         System.out.println(result.getId());
@@ -94,14 +96,13 @@ public class SyncMysql {
         String binlogFilename;
         long binlogPosition;
         try {
-            GetResponse response = client.prepareGet("filePosition", "map", "1").get();
+            GetResponse response = client.prepareGet("fileposition", "map", "1").execute().actionGet();
             if (!response.isExists()) {
                 return null;
             }
-            GetField fileName = response.getField("fileName");
-            GetField position = response.getField("position");
-            binlogFilename = (String) fileName.getValue();
-            binlogPosition = (long) position.getValue();
+            Map<String, Object> sourceAsMap = response.getSourceAsMap();
+            binlogFilename = (String) sourceAsMap.get("fileName");
+            binlogPosition = Long.valueOf(sourceAsMap.get("position").toString());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
