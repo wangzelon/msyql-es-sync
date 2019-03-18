@@ -43,14 +43,22 @@ public class SyncMysql {
         } else {
             fileName = (String) filePosition.get("fileName");
             position = (Long) filePosition.get("position");
+
             client.setBinlogFilename(fileName);
             client.setBinlogPosition(position);
         }
         client.registerEventListener(event -> {
+            Boolean flag;
+            Map positionMap = getFilePosition();
             EventHeader header = event.getHeader();
             EventType eventType = header.getEventType();
             EventData data = event.getData();
-            if (getFlag(eventType)) {
+            if (positionMap != null) {
+                flag = (Boolean) filePosition.get("flag");
+            } else {
+                flag = getFlag(eventType);
+            }
+            if (flag) {
                 if (EventType.TABLE_MAP.equals(eventType)) {
                     TableMapEventData eventData = (TableMapEventData) data;
                     database = eventData.getDatabase();
@@ -72,7 +80,7 @@ public class SyncMysql {
                 }
             }
             if (!fileName.equals(client.getBinlogFilename())) {
-                changeFilePosition(client.getBinlogFilename(), client.getBinlogPosition());
+                changeFilePosition(client.getBinlogFilename(), client.getBinlogPosition(), flag);
                 fileName = client.getBinlogFilename();
                 position = client.getBinlogPosition();
             }
@@ -81,15 +89,16 @@ public class SyncMysql {
 
     }
 
-    private void changeFilePosition(String binlogFilename, long binlogPosition) {
+    private void changeFilePosition(String binlogFilename, long binlogPosition, Boolean flag) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("fileName", binlogFilename);
         map.put("position", binlogPosition);
+        map.put("flag", flag);
         String jsonString = JSON.toJSONString(map);
         IndexResponse result = client.prepareIndex("fileposition", "map")
                 .setSource(JSON.parseObject(jsonString)).setId("1")
                 .get();
-        System.out.println(result.getId());
+        System.out.println(result.getVersion());
     }
 
     private Map getFilePosition() {
