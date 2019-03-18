@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * created by wangzelong 2019/3/16 16:12
  */
 @Configuration
-@MapperScan("com.opshop.dao*")
+@MapperScan("com.opshop.mapper")
 public class MybatisPlusConfig {
 
     @Bean
