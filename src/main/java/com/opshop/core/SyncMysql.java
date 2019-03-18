@@ -49,6 +49,7 @@ public class SyncMysql {
                         List<Map.Entry<Serializable[], Serializable[]>> rows = updateRowsEventData.getRows();
 
                         System.out.println(updateRowsEventData);
+                        System.out.println("rows"+rows);
                     }
                     if (EventType.isWrite(eventType)) {
                         WriteRowsEventData writeRowsEventData = (WriteRowsEventData) data;
