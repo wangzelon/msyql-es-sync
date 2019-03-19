@@ -6,4 +6,6 @@ import com.opshop.bean.ProductAttributeList;
 
 public interface ProductAttributeListMapper extends BaseMapper<ProductAttributeList> {
 
+
+
 }

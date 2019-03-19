@@ -2,6 +2,7 @@ package com.opshop.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.opshop.bean.Product;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ import java.util.Map;
 /**
  * Created by zhouxj6112 on 2018/12/3.
  */
+@Mapper
 public interface IProductMapper extends BaseMapper<Product> {
 
     /***
