@@ -10,11 +10,4 @@ import java.util.List;
  * Created by zhouxj6112 on 2019/1/5.
  */
 public interface IProductPropertyListMapper extends BaseMapper<ProductPropertyList> {
-
-    ProductPropertyList selPropertyValueByName(@Param("propValue") String propValue);
-
-    int insertSelective(ProductPropertyList property);
-
-    List<ProductPropertyList> selPropertyValueBySpuId(@Param("spuId") String spuId);
-
 }

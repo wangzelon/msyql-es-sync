@@ -73,10 +73,12 @@ public class ProductDetailModel {
          * 进货价 (中国:人民币,存数据库的时候需要变成美元)
          */
         List<SkuPrice> pricesIn;
+
+        List<SkuPrice> pricesJson;
         /**
          * 售卖价 (美国:美元)
          */
-        List<SkuPrice> pricesOut;
+        List<SkuPrice> pricesOutCN;
         /**
          * 售卖价 (泰国:美元)
          */

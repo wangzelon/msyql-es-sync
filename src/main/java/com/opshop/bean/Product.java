@@ -62,6 +62,10 @@ public class Product extends Model<Product> {
     private String mainImage;
     @TableField("video_url")
     private String videoUrl;
+
+    @TableField("property_ids")
+    private String propertyIds;
+
     @TableField(exist = false)
     private Date sendTime;
 

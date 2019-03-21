@@ -19,6 +19,7 @@ public class ProductProperty extends Model<ProductProperty> {
 
     @TableId(value = "property_id", type = IdType.AUTO)
     private Integer propertyId;
+    @TableField("from")
     private String from;
     @TableField("base_category_id")
     private Integer baseCategoryId;

@@ -17,6 +17,7 @@ public class ProductAttributeList extends Model<ProductAttributeList> {
     private Integer id;
     @TableField("attribute_id")
     private Integer attributeId;
+    @TableField("value")
     private String value;
     @TableField("value_zh")
     private String valueZh;
