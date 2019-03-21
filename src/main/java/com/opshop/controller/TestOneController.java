@@ -18,6 +18,6 @@ public class TestOneController {
     @GetMapping("/add")
     public String testAdd() throws IOException {
         syncMysql.addEs();
-        return "succ";
+        return "success";
     }
 }
